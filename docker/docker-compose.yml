@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  payment_php:
+    build: ./php/
+    container_name: payment_php
+    volumes:
+      - ../:/var/www/
+    ports:
+      - 8086:80
+    environment:
+      WEB_DOCUMENT_ROOT: /var/www
+      WEB_DOCUMENT_INDEX: index.php
+      PHP_MEMORY_LIMIT: 512M
+      PHP_UPLOAD_MAX_FILESIZE: 512M
+      PHP_POST_MAX_SIZE: 512M      
+      PHP_DISPLAY_ERRORS: 1 
+    depends_on:
+      - payment_mysql
+  payment_mysql:
+    build: ./mysql/
+    container_name: payment_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: payment_db
+    ports:
+      - 3315:3306
